@@ -58,7 +58,7 @@ def encode_message(message: str) -> str | None:
         message (str): Message to encode.
 
     Returns:
-        str: The message enconded.
+        str: The message encoded.
         None: If the message has a invalid character.
     """
     raw_msg: str = message.strip().upper()
@@ -77,7 +77,7 @@ def play_tone(frequency: float | int, duration: float, sample_rate=44100):
 
     Args:
         frequency (int | float): Tone frequency (Hz).
-        duration (float): Durantion to play tone (ms).
+        duration (float): Duration to play tone (ms).
         sample_rate (int): Number of samples to play.
     """
     # Generate time points
@@ -98,8 +98,8 @@ def play_encoded_message(msg: str, dot_duration: float = 0.06) -> None:
     Play a entire encoded text.
 
     Args:
-        msg (str): A message to encond into a morse code and play.
-        dot_duration (float): Time stemp to represent a duration a "." in morse code.
+        msg (str): A message to encode into a morse code and play.
+        dot_duration (float): Timestamp to represent the duration of "." in morse code.
     """
     for char in msg:
         if char == ".":
