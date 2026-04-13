@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "codificador-morse"
+version = "0.1.0"
+authors = [
+    {name = "Arthur Negrão Smith", email = "arthur.smith@icen.ufpa.br"},
+]
+description = "Um programa para codificar textos em código morse e emiti-los por ondas sonoras"
+readme = "README.md"
+requires-python = ">= 3.11"
+dependencies = [
+  "numpy",
+  "sounddevice",
+  "black",
+]
