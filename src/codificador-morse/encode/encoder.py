@@ -50,13 +50,13 @@ MORSE_CODE_DICT: dict[str, str] = {
 }
 
 
-def encode_char(char: str, slots_between_dots: int = 1) -> str:
+def encode_char(char: str, gap_between_dots: int = 1) -> str:
     """
     Encode a ASCII char to morse code.
 
     Args:
         char (str): A char to encode.
-        slots_between_dots (int): Dot spaces between each morse symbol: "-" or ".".
+        gap_between_dots (int): Dot spaces between each morse symbol: "-" or ".".
 
     Returns:
         str: Return the char encoded.
@@ -69,23 +69,23 @@ def encode_char(char: str, slots_between_dots: int = 1) -> str:
         finished_encoded += current_char_morse
         # The word do not has a blank space in finish
         if i != len(raw_encoded) - 1:
-            finished_encoded += " " * slots_between_dots
+            finished_encoded += " " * gap_between_dots
 
     return finished_encoded
 
 
 def encode_message(
     message: str,
-    time_stemp_between_words: int = 7,
-    time_stemp_between_chars: int = 3,
+    gap_between_words: int = 7,
+    gap_between_chars: int = 3,
 ) -> str | None:
     """
     Encode a raw message to morse code.
 
     Args:
         message (str): Message to encode.
-        time_stemp_between_words (int): Dot spaces between each word,
-        time_stemp_between_chars (int): Dot spaces between each ASCII character.
+        gap_between_words (int): Dot spaces between each word,
+        gap_between_chars (int): Dot spaces between each ASCII character.
 
     Returns:
         str: The message enconded.
@@ -98,12 +98,10 @@ def encode_message(
         encoded_words_list: list[str] = []
         for word in words_list:
             encoded_words_list.append(
-                (" " * time_stemp_between_chars).join(map(encode_char, word))
+                (" " * gap_between_chars).join(map(encode_char, word))
             )
 
-        encoded_msg: str = (
-            (" " * time_stemp_between_words).join(encoded_words_list).strip()
-        )
+        encoded_msg: str = (" " * gap_between_words).join(encoded_words_list).strip()
         return encoded_msg
     except:
         print(f"O texto '{raw_msg}' é inválido. Use apenas caracteres ASCII.")
@@ -140,7 +138,7 @@ def play_encoded_message(
 
     Args:
         msg (str): A message to encond into a morse code and play.
-        dot_duration (float): Time stemp to represent a duration a "." in morse code.
+        dot_duration (float): Time gap to represent a duration a "." in morse code.
     """
     for char in msg:
         if char == ".":
