@@ -20,6 +20,7 @@ class MorseCodeApp(QWidget):
         self.setWindowTitle("Codificador de Código Morse")
         self.resize(500, 350)
         self.setup_ui()
+        self.is_playing: bool = False
 
     def setup_ui(self) -> None:
         """
@@ -86,11 +87,18 @@ class MorseCodeApp(QWidget):
         """
         Play the encoded message in audio interface with a new Thread.
         """
+        if self.is_playing:
+            QMessageBox.warning(
+                self, "Aviso", "Um texto já está sendo tocado no momento."
+            )
+            return
+
         msg = self.output_field.toPlainText()
         if msg:
             # deactive the button to avoid multiple executions
             self.btn_play.setEnabled(False)
             self.btn_play.setText("Tocando...")
+            self.is_playing = True
 
             # use a thread to avoid ui blocking
             threading.Thread(
@@ -106,6 +114,7 @@ class MorseCodeApp(QWidget):
         finally:
             self.btn_play.setEnabled(True)
             self.btn_play.setText("Tocar Som")
+            self.is_playing = False
 
 
 if __name__ == "__main__":
