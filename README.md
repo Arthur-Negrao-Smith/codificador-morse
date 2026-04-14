@@ -34,7 +34,7 @@ python -m venv venv
 venv\Scripts\activate.bat
 
 # Linux
-python3.12 -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 ```
 
@@ -52,7 +52,7 @@ pip install .
 
 ## Execução
 
-Para executar o código, basta executar o comando `python src/codificador-morse/main.py`.
+Para executar o código, basta executar o comando `python -m src.codificador-morse.main.py`.
 
 ## Autores
 - Arthur Negrão
