@@ -46,16 +46,46 @@ MORSE_CODE_DICT: dict[str, str] = {
     "-": "-....-",
     "(": "-.--.",
     ")": "-.--.-",
-    " ": "/",
+    " ": " ",
 }
 
 
-def encode_message(message: str) -> str | None:
+def encode_char(char: str, slots_between_dots: int = 1) -> str:
+    """
+    Encode a ASCII char to morse code.
+
+    Args:
+        char (str): A char to encode.
+        slots_between_dots (int): Dot spaces between each morse symbol: "-" or ".".
+
+    Returns:
+        str: Return the char encoded.
+    """
+    # translate from ASCII char to morse code
+    raw_encoded: str = MORSE_CODE_DICT[char]
+    finished_encoded: str = ""
+
+    for i, current_char_morse in enumerate(raw_encoded):
+        finished_encoded += current_char_morse
+        # The word do not has a blank space in finish
+        if i != len(raw_encoded) - 1:
+            finished_encoded += " " * slots_between_dots
+
+    return finished_encoded
+
+
+def encode_message(
+    message: str,
+    time_stemp_between_words: int = 7,
+    time_stemp_between_chars: int = 3,
+) -> str | None:
     """
     Encode a raw message to morse code.
 
     Args:
         message (str): Message to encode.
+        time_stemp_between_words (int): Dot spaces between each word,
+        time_stemp_between_chars (int): Dot spaces between each ASCII character.
 
     Returns:
         str: The message enconded.
@@ -64,7 +94,16 @@ def encode_message(message: str) -> str | None:
     raw_msg: str = message.strip().upper()
 
     try:
-        encoded_msg = "".join(map(lambda char: MORSE_CODE_DICT[char] + " ", raw_msg))
+        words_list: list[str] = raw_msg.split(" ")
+        encoded_words_list: list[str] = []
+        for word in words_list:
+            encoded_words_list.append(
+                (" " * time_stemp_between_chars).join(map(encode_char, word))
+            )
+
+        encoded_msg: str = (
+            (" " * time_stemp_between_words).join(encoded_words_list).strip()
+        )
         return encoded_msg
     except:
         print(f"O texto '{raw_msg}' é inválido. Use apenas caracteres ASCII.")
@@ -93,7 +132,9 @@ def play_tone(frequency: float | int, duration: float, sample_rate=44100):
     sd.wait()
 
 
-def play_encoded_message(msg: str, dot_duration: float = 0.06) -> None:
+def play_encoded_message(
+    msg: str, dot_duration: float = 0.06, frequency: int = 440
+) -> None:
     """
     Play a entire encoded text.
 
@@ -104,10 +145,10 @@ def play_encoded_message(msg: str, dot_duration: float = 0.06) -> None:
     for char in msg:
         if char == ".":
             # 1 dot duration to represent a "."
-            play_tone(440, dot_duration)
+            play_tone(frequency, dot_duration)
         elif char == "-":
             # 3 times the dot duration to represent a "-"
-            play_tone(440, dot_duration * 3)
+            play_tone(frequency, dot_duration * 3)
         else:
             # to represent a blank space
             sd.sleep(int(dot_duration * 1000))
