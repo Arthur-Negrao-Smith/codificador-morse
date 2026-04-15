@@ -52,8 +52,8 @@ pip install .
 
 ## Execução
 
-Para executar o código, basta executar o comando `python -m src.codificador-morse.main.py`.
+Para executar o código, basta executar o comando `python -m src.codificador-morse.main`.
 
 ## Autores
 - Arthur Negrão
-- Murilo Figueira
+- Murilo Henrique
